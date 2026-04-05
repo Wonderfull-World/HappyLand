@@ -93,11 +93,21 @@ horror:`
 
 `,
 
-log1:`
+log2:`
 
-<h1>registro corrompido</h1>
+<h1>registro</h1>
 
-<p>██████████████</p>
+<p>ele está olhando</p>
+
+<iframe 
+width="400" 
+height="225" 
+src="https://www.youtube.com/embed/u3yCQlY0oAw"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+<br><br>
 
 <button onclick="goto('horror')">voltar</button>
 
