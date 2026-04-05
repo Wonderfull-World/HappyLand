@@ -1,0 +1,146 @@
+/* =========================
+RESET
+========================= */
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+/* =========================
+CURSOR
+========================= */
+
+body{
+cursor:pointer;
+}
+
+/* =========================
+KIDS MODE
+========================= */
+
+body.kids{
+background:#fffbe6 url("https://www.transparenttextures.com/patterns/stars.png");
+font-family:"Comic Sans MS",cursive;
+text-align:center;
+color:#000;
+}
+
+/* =========================
+HORROR MODE
+========================= */
+
+body.horror{
+background:black;
+color:#aa0000;
+font-family:monospace;
+}
+
+/* =========================
+LAYOUT
+========================= */
+
+.topbar{
+background:#ffcc00;
+padding:8px;
+border-bottom:4px outset #fff;
+}
+
+.footer{
+margin-top:40px;
+padding:10px;
+font-size:12px;
+}
+
+#app{
+padding:20px;
+}
+
+/* =========================
+BOX
+========================= */
+
+.box{
+border:4px outset #ffcc00;
+padding:20px;
+margin:20px auto;
+width:320px;
+background:white;
+}
+
+/* =========================
+FILESYSTEM
+========================= */
+
+.file{
+display:block;
+margin:6px;
+cursor:pointer;
+}
+
+.file:hover{
+text-decoration:underline;
+}
+
+/* =========================
+BLINK
+========================= */
+
+.blink{
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+50%{opacity:0}
+}
+
+/* =========================
+GLITCH
+========================= */
+
+.glitch{
+animation:glitch .2s infinite;
+}
+
+@keyframes glitch{
+0%{transform:translate(0)}
+50%{transform:translate(2px,-2px)}
+}
+
+/* =========================
+VHS / CRT
+========================= */
+
+#crt-overlay{
+pointer-events:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:repeating-linear-gradient(
+0deg,
+rgba(0,0,0,0.15),
+rgba(0,0,0,0.15) 2px,
+transparent 2px,
+transparent 4px
+);
+opacity:0.2;
+}
+
+/* =========================
+CORRUPÇÃO
+========================= */
+
+.corrupt{
+filter:contrast(2) saturate(0.2);
+}
+
+/* =========================
+HIDDEN TEXT
+========================= */
+
+.hidden{
+color:#050000;
+}
