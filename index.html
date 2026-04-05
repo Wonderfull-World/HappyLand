@@ -1,50 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
 <title>Mundo Feliz :)</title>
 
 <style>
 
-/* ===== KIDS RETRO ===== */
+/* ===== ESTILO KIDS 90s ===== */
+
 body.kids{
-  background:#fffbe6 url('https://www.transparenttextures.com/patterns/stars.png');
-  font-family:"Comic Sans MS",cursive;
-  text-align:center;
+background:#fffbe6 url("https://www.transparenttextures.com/patterns/stars.png");
+font-family:"Comic Sans MS",cursive;
+text-align:center;
+color:black;
 }
 
-.blink{animation:blink 1s infinite;}
+.blink{animation:blink 1s infinite}
 @keyframes blink{50%{opacity:0}}
 
 .box{
-  border:4px outset #ffcc00;
-  margin:20px;
-  padding:15px;
-  background:white;
+border:4px outset yellow;
+padding:20px;
+margin:20px;
+background:white;
 }
 
 /* ===== HORROR ===== */
+
 body.horror{
-  background:#000;
-  color:#aa0000;
-  font-family:monospace;
+background:black;
+color:#aa0000;
+font-family:monospace;
 }
 
-.corrupt{
-  animation:glitch 0.3s infinite;
+.glitch{
+animation:glitch 0.2s infinite
 }
 
 @keyframes glitch{
-  0%{transform:translate(0)}
-  50%{transform:translate(2px,-2px)}
+0%{transform:translate(0)}
+50%{transform:translate(2px,-2px)}
 }
 
-.hidden{color:#050000}
+/* ===== ARQUIVOS ===== */
 
-iframe{
-  width:100%;
-  height:200px;
-  border:none;
+.file{
+cursor:pointer;
+margin:5px;
+}
+
+.hidden{
+color:#040000;
+}
+
+/* ===== VHS ===== */
+
+.vhs{
+animation:vhs 0.15s infinite
+}
+
+@keyframes vhs{
+0%{filter:contrast(1)}
+50%{filter:contrast(1.4)}
 }
 
 </style>
@@ -52,203 +70,234 @@ iframe{
 
 <body class="kids">
 
-<!-- ===== KIDS ===== -->
-<div id="kids">
+<div id="app"></div>
 
+<script>
+
+/* =========================
+ESTADO
+========================= */
+
+let state="kids"
+
+/* =========================
+AUDIOS
+========================= */
+
+const kidsMusic = new Audio("https://www.bensound.com/bensound-music/bensound-funnysong.mp3")
+kidsMusic.loop=true
+
+const horrorMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3")
+horrorMusic.loop=true
+horrorMusic.volume=0.05
+
+document.body.onclick=()=>kidsMusic.play().catch(()=>{})
+
+/* =========================
+PÁGINAS
+========================= */
+
+const pages={
+
+kids:`
 <h1>🌈 MUNDO FELIZ 🌈</h1>
 
-<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="120">
+<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width=120>
 
 <p class="blink">✨ NOVO!!! ✨</p>
 
 <div class="box">
-<h2>Vídeos</h2>
-<iframe src="https://www.youtube.com/embed/7gRjoH7pwOQ"></iframe>
-<iframe src="https://www.youtube.com/embed/YrWmoJs_v1g"></iframe>
-</div>
 
-<div class="box">
-<button onclick="alert('Você ganhou!!!')">CLIQUE PRA GANHAR</button>
-</div>
+<h2>Jogos</h2>
+
+<div class="file" onclick="goto('videos')">📁 vídeos</div>
+<div class="file" onclick="goto('downloads')">📁 downloads</div>
 
 </div>
 
-<!-- ===== HORROR ===== -->
-<div id="horror" style="display:none">
+`,
 
-<h1 class="corrupt">você não devia ter vindo</h1>
+videos:`
 
-<p>este arquivo não é seu</p>
+<h1>VÍDEOS DIVERTIDOS</h1>
+
+<iframe width=400 height=200 src="https://www.youtube.com/embed/7gRjoH7pwOQ"></iframe>
+
+<br><br>
+
+<button onclick="goto('kids')">voltar</button>
+
+`,
+
+downloads:`
+
+<h1>DOWNLOADS</h1>
+
+<div class="file" onclick="goto('arquivo001')">arquivo_001.exe</div>
+<div class="file" onclick="goto('arquivo002')">arquivo_002.exe</div>
+
+<br><br>
+
+<button onclick="goto('kids')">voltar</button>
+
+`,
+
+/* ===== arquivos falsos ===== */
+
+arquivo001:`
+
+<h1>abrindo arquivo...</h1>
+
+<p>nada encontrado</p>
+
+<button onclick="goto('downloads')">voltar</button>
+
+`,
+
+arquivo002:`
+
+<h1>abrindo arquivo...</h1>
 
 <p class="hidden">ele ainda está aqui</p>
 
-<div>
-<h2>arquivo_001</h2>
-<iframe src="https://www.youtube.com/embed/7gRjoH7pwOQ"></iframe>
-</div>
+<button onclick="goto('downloads')">voltar</button>
 
-<div>
-<h2>arquivo_002</h2>
-<iframe src="https://www.youtube.com/embed/YrWmoJs_v1g"></iframe>
-</div>
+`,
 
-<div id="secret" style="display:none">
-<h2>arquivo_004</h2>
-<p>██████████</p>
-</div>
+/* ===== rota horror ===== */
 
-</div>
+seeyoulater:`
 
-<script>
+<h1 class="glitch">você não devia ter vindo</h1>
 
-/* ===== ELEMENTOS ===== */
+<p>este arquivo não é seu</p>
 
-const kids = document.getElementById("kids");
-const horror = document.getElementById("horror");
-const secret = document.getElementById("secret");
+<div class="file" onclick="goto('log1')">log_001</div>
+<div class="file" onclick="goto('log2')">log_002</div>
 
-/* ===== AUDIO ===== */
+`,
 
-const kidsMusic = new Audio("https://www.bensound.com/bensound-music/bensound-funnysong.mp3");
-kidsMusic.loop = true;
-kidsMusic.volume = 0.3;
+log1:`
 
-const horrorMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
-horrorMusic.loop = true;
-horrorMusic.volume = 0.05;
+<h1>registro corrompido</h1>
 
-const secretSound = new Audio("https://www.soundjay.com/horror/sounds/horror-ambience-01.mp3");
+<p>██████████████</p>
 
-/* autoplay após interação */
+<button onclick="goto('seeyoulater')">voltar</button>
 
-document.body.addEventListener("click",()=>{
-  kidsMusic.play().catch(()=>{});
-},{once:true});
+`,
 
-/* ===== FUNÇÕES ===== */
+log2:`
 
-function setKids(){
+<h1>registro</h1>
 
-  document.body.className="kids";
+<p>ele está olhando</p>
 
-  kids.style.display="block";
-  horror.style.display="none";
+<button onclick="goto('seeyoulater')">voltar</button>
 
-  horrorMusic.pause();
-  kidsMusic.play().catch(()=>{});
+`,
+
+/* ===== final ===== */
+
+final:`
+
+<h1 class="glitch">acabou</h1>
+
+<p>você abriu todos os arquivos</p>
+
+`
 
 }
 
-function setHorror(){
+/* =========================
+ROTEADOR
+========================= */
 
-  document.body.className="horror";
+function goto(page){
 
-  kids.style.display="none";
-  horror.style.display="block";
-
-  kidsMusic.pause();
-  horrorMusic.play().catch(()=>{});
+location.hash=page
 
 }
 
-/* ===== ROUTER ===== */
+function render(){
 
-function route(){
+let hash=location.hash.replace("#","")
 
-  const h = location.hash;
+if(hash==="")hash="kids"
 
-  setKids();
+/* ativa horror */
 
-  if(h === "#seeyoulater"){
-    setHorror();
-  }
+if(hash==="seeyoulater"||hash==="log1"||hash==="log2"||hash==="final"){
 
-  if(h === "#arquivo4"){
-    setHorror();
-    secret.style.display="block";
-    secretSound.play().catch(()=>{});
-  }
-
-  if(h === "#help"){
-    setHorror();
-    document.body.innerHTML="<h1 style='color:red'>me ajude</h1>";
-    secretSound.play().catch(()=>{});
-  }
-
-  if(h === "#final"){
-    setHorror();
-    document.body.innerHTML="<h1 style='color:red'>acabou</h1>";
-    new Audio("https://www.soundjay.com/horror/sounds/scream-01.mp3").play().catch(()=>{});
-  }
-
-  if(h === "#loop"){
-    setHorror();
-
-    setInterval(()=>{
-      document.body.style.transform =
-        `translate(${Math.random()*10}px,${Math.random()*10}px)`
-    },100);
-  }
-
-  if(h === "#observer"){
-    setHorror();
-
-    setInterval(()=>{
-      document.title="eu estou olhando"
-    },500);
-
-    secretSound.play().catch(()=>{});
-  }
+document.body.className="horror"
+kidsMusic.pause()
+horrorMusic.play().catch(()=>{})
 
 }
 
-/* ===== EVENTOS ===== */
+/* render */
 
-window.addEventListener("load",route);
-window.addEventListener("hashchange",route);
+if(pages[hash]){
 
-/* ===== CLICKS SECRETOS ===== */
+document.getElementById("app").innerHTML=pages[hash]
 
-let c=0;
+}
 
-document.body.addEventListener("click",()=>{
+}
 
-  c++;
+/* =========================
+EVENTOS
+========================= */
 
-  if(c==20){
-    alert("pare.");
-  }
+window.addEventListener("hashchange",render)
+window.addEventListener("load",render)
 
-  if(c==40){
-    document.body.innerHTML="<h1 style='color:red'>VOCÊ NÃO SAI MAIS</h1>";
-  }
+/* =========================
+SEGREDOS
+========================= */
 
-});
+/* rota secreta digitando */
 
-/* ===== TEMPO ===== */
+let secret="help"
+let buffer=""
 
-setTimeout(()=>{
+document.addEventListener("keydown",e=>{
 
-  if(document.body.className==="horror"){
-    alert("rastreamento iniciado");
-  }
+buffer+=e.key
 
-},15000);
+if(buffer.includes(secret)){
 
-/* ===== TÍTULO GLITCH ===== */
+goto("seeyoulater")
+
+}
+
+})
+
+/* título creepy */
 
 setInterval(()=>{
 
-  if(document.body.className==="horror"){
+if(document.body.className==="horror"){
 
-    document.title =
-      Math.random()>0.5 ?
-      "não olhe atrás" :
-      "ele está perto";
+document.title=Math.random()>0.5
+?"não olhe atrás"
+:"ele está perto"
 
-  }
+}
 
-},2000);
+},2000)
+
+/* mensagem tardia */
+
+setTimeout(()=>{
+
+if(document.body.className==="horror"){
+
+alert("rastreamento iniciado")
+
+}
+
+},15000)
 
 </script>
 
