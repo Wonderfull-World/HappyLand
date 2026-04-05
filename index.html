@@ -41,7 +41,11 @@ body.horror{
 
 .hidden{color:#050000}
 
-iframe{width:100%;height:200px;border:none}
+iframe{
+  width:100%;
+  height:200px;
+  border:none;
+}
 
 </style>
 </head>
@@ -97,104 +101,153 @@ iframe{width:100%;height:200px;border:none}
 
 <script>
 
+/* ===== ELEMENTOS ===== */
+
+const kids = document.getElementById("kids");
+const horror = document.getElementById("horror");
+const secret = document.getElementById("secret");
+
 /* ===== AUDIO ===== */
-let kidsMusic = new Audio("https://www.bensound.com/bensound-music/bensound-funnysong.mp3");
+
+const kidsMusic = new Audio("https://www.bensound.com/bensound-music/bensound-funnysong.mp3");
 kidsMusic.loop = true;
 kidsMusic.volume = 0.3;
 
-let horrorMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
+const horrorMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3");
 horrorMusic.loop = true;
 horrorMusic.volume = 0.05;
 
-let secretSound = new Audio("https://www.soundjay.com/horror/sounds/horror-ambience-01.mp3");
+const secretSound = new Audio("https://www.soundjay.com/horror/sounds/horror-ambience-01.mp3");
 
-/* autoplay */
+/* autoplay após interação */
+
 document.body.addEventListener("click",()=>{
   kidsMusic.play().catch(()=>{});
 },{once:true});
 
-/* ===== ROUTER ===== */
-function route(){
-  let h = location.hash;
+/* ===== FUNÇÕES ===== */
 
-  /* reset */
+function setKids(){
+
   document.body.className="kids";
+
   kids.style.display="block";
   horror.style.display="none";
 
   horrorMusic.pause();
   kidsMusic.play().catch(()=>{});
 
-  /* HORROR */
+}
+
+function setHorror(){
+
+  document.body.className="horror";
+
+  kids.style.display="none";
+  horror.style.display="block";
+
+  kidsMusic.pause();
+  horrorMusic.play().catch(()=>{});
+
+}
+
+/* ===== ROUTER ===== */
+
+function route(){
+
+  const h = location.hash;
+
+  setKids();
+
   if(h === "#seeyoulater"){
     setHorror();
   }
 
   if(h === "#arquivo4"){
     setHorror();
-    document.getElementById("secret").style.display="block";
-    secretSound.play();
+    secret.style.display="block";
+    secretSound.play().catch(()=>{});
   }
 
   if(h === "#help"){
     setHorror();
     document.body.innerHTML="<h1 style='color:red'>me ajude</h1>";
-    secretSound.play();
+    secretSound.play().catch(()=>{});
   }
 
   if(h === "#final"){
     setHorror();
     document.body.innerHTML="<h1 style='color:red'>acabou</h1>";
-    new Audio("https://www.soundjay.com/horror/sounds/scream-01.mp3").play();
+    new Audio("https://www.soundjay.com/horror/sounds/scream-01.mp3").play().catch(()=>{});
   }
 
   if(h === "#loop"){
     setHorror();
+
     setInterval(()=>{
-      document.body.style.transform=`translate(${Math.random()*10}px,${Math.random()*10}px)`
+      document.body.style.transform =
+        `translate(${Math.random()*10}px,${Math.random()*10}px)`
     },100);
   }
 
   if(h === "#observer"){
     setHorror();
-    setInterval(()=>document.title="eu estou olhando",500);
-    secretSound.play();
+
+    setInterval(()=>{
+      document.title="eu estou olhando"
+    },500);
+
+    secretSound.play().catch(()=>{});
   }
+
 }
 
-function setHorror(){
-  document.body.className="horror";
-  kids.style.display="none";
-  horror.style.display="block";
+/* ===== EVENTOS ===== */
 
-  kidsMusic.pause();
-  horrorMusic.play().catch(()=>{});
-}
-
-/* eventos */
 window.addEventListener("load",route);
 window.addEventListener("hashchange",route);
 
-/* clicks secretos */
+/* ===== CLICKS SECRETOS ===== */
+
 let c=0;
+
 document.body.addEventListener("click",()=>{
+
   c++;
-  if(c==20) alert("pare.");
-  if(c==40) document.body.innerHTML="<h1 style='color:red'>VOCÊ NÃO SAI MAIS</h1>";
+
+  if(c==20){
+    alert("pare.");
+  }
+
+  if(c==40){
+    document.body.innerHTML="<h1 style='color:red'>VOCÊ NÃO SAI MAIS</h1>";
+  }
+
 });
 
-/* tempo */
+/* ===== TEMPO ===== */
+
 setTimeout(()=>{
+
   if(document.body.className==="horror"){
     alert("rastreamento iniciado");
   }
+
 },15000);
 
-/* título */
+/* ===== TÍTULO GLITCH ===== */
+
 setInterval(()=>{
+
   if(document.body.className==="horror"){
-    document.title=Math.random()>0.5?"não olhe atrás":"ele está perto";
+
+    document.title =
+      Math.random()>0.5 ?
+      "não olhe atrás" :
+      "ele está perto";
+
   }
+
 },2000);
 
 </script>
